@@ -32,7 +32,6 @@ export class TableComponent implements OnInit, OnDestroy {
 
   openModal(): void {
     this.eventService.triggerEvent(this.openModalEventId, this.componentId, this.parentComponentId);
-    return undefined;
   }
 
   private handleEvents(event: any): void {

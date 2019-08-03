@@ -37,7 +37,6 @@ export class TablePageComponent implements OnInit, OnDestroy {
   }
 
   private handleEvent(event: any): void {
-    console.log('event', event);
     switch (event.eventId) {
       case this.openModalEventId: this.isModalOpen = true;
                                   break;

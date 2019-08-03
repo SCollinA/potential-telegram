@@ -35,7 +35,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   private handleEvent(event: any): void {
-    console.log('event', event);
     switch (event.eventId) {
       case this.closeFormEventId: history.back();
                                   break;

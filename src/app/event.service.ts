@@ -23,7 +23,7 @@ export class EventService {
 
   registerEvent(targetId: string): string {
     const eventId = uuid();
-    this.componentMap[targetId][eventId] = {};
+    this.componentMap[targetId][eventId] = eventId;
     return eventId;
   }
 
