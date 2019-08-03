@@ -10,7 +10,7 @@ export class TablePageComponent implements OnInit {
 
   modalIsOpen = false;
 
-  constructor(private eventService: EventService) { 
+  constructor(private eventService: EventService) {
 
   }
 

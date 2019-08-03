@@ -14,8 +14,7 @@ export class TableComponent implements OnInit {
   }
 
   openModal(): void {
-    // this.eventService
-
+    this.eventService.register();
     return undefined;
   }
 }
