@@ -1,9 +1,13 @@
 <p>
   table-page works!
 </p>
-<app-table></app-table>
+<app-table
+  [parentComponentId]="componentId"
+></app-table>
 <app-modal
   *ngIf="modalIsOpen"
   >
-  <app-form></app-form>
+  <app-form
+    [parentComponentId]="componentId"
+  ></app-form>
 </app-modal>

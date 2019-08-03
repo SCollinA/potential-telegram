@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EventService } from '../events.service';
 
 @Component({
@@ -8,13 +8,18 @@ import { EventService } from '../events.service';
 })
 export class TableComponent implements OnInit {
 
+  @Input()
+  parentComponentId: string;
+
+  componentId: string;
+
   constructor(private eventService: EventService) { }
 
   ngOnInit() {
+    this.componentId = this.eventService.register();
   }
 
   openModal(): void {
-    this.eventService.register();
     return undefined;
   }
 }

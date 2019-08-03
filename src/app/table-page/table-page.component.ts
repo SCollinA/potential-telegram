@@ -8,6 +8,7 @@ import { EventService } from '../events.service';
 })
 export class TablePageComponent implements OnInit {
 
+  componentId: string;
   modalIsOpen = false;
 
   constructor(private eventService: EventService) {
@@ -15,6 +16,7 @@ export class TablePageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.componentId = this.eventService.register();
   }
 
 }
