@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventService } from '../events.service';
 
 @Component({
   selector: 'app-table',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TableComponent implements OnInit {
 
-  constructor() { }
+  constructor(private eventService: EventService) { }
 
   ngOnInit() {
   }
 
+  openModal(): void {
+    // this.eventService
+
+    return undefined;
+  }
 }
