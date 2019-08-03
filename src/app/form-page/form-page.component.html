@@ -1,15 +1,7 @@
 <p>
   form-page works!
 </p>
-<app-table
+<app-form
   [parentComponentId]="componentId"
-  [openModalEventId]="openModalEventId"
-></app-table>
-<app-modal
-  *ngIf="isModalOpen"
-  >
-  <app-form
-    [parentComponentId]="componentId"
-    [closeFormEventId]="closeModalEventId"
-  ></app-form>
-</app-modal>
+  [closeFormEventId]="closeFormEventId"
+></app-form>
