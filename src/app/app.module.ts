@@ -6,6 +6,8 @@ import { ModalComponent } from './modal/modal.component';
 import { FormComponent } from './form/form.component';
 import { TableComponent } from './table/table.component';
 import { TablePageComponent } from './table-page/table-page.component';
+import { AppRoutingModule } from './app-routing.module';
+import { FormPageComponent } from './form-page/form-page.component';
 
 @NgModule({
   declarations: [
@@ -13,10 +15,12 @@ import { TablePageComponent } from './table-page/table-page.component';
     ModalComponent,
     FormComponent,
     TableComponent,
-    TablePageComponent
+    TablePageComponent,
+    FormPageComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
