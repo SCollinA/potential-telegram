@@ -40,7 +40,11 @@ export class EventService {
     });
   }
 
-  // unregisterComponent = (): stri
+  unregisterComponent(targetId: string): void {
+    delete this.componentMap[targetId];
+  }
 
-  // unregisterEvent()
+  unregisterEvent(eventId: string, targetId: string): void {
+    delete this.componentMap[targetId][eventId];
+  }
 }
