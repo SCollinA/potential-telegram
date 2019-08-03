@@ -3,11 +3,13 @@
 </p>
 <app-table
   [parentComponentId]="componentId"
+  [openModalEventId]="openModalEventId"
 ></app-table>
 <app-modal
   *ngIf="modalIsOpen"
   >
   <app-form
     [parentComponentId]="componentId"
+    [closeFormEventId]="closeModalEventId"
   ></app-form>
 </app-modal>

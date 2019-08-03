@@ -11,15 +11,19 @@ export class TableComponent implements OnInit {
   @Input()
   parentComponentId: string;
 
+  @Input()
+  openModalEventId: string;
+
   componentId: string;
 
   constructor(private eventService: EventService) { }
 
   ngOnInit() {
-    this.componentId = this.eventService.register();
+    this.componentId = this.eventService.registerComponent();
   }
 
   openModal(): void {
+    // this.eventService.triggerEvent(this.openModalEventId, this.componentId, this.parentComponentId);
     return undefined;
   }
 }
