@@ -31,7 +31,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   closeForm() {
-    // this.eventService.triggerEvent(this.closeFormEventId, this.componentId, this.parentComponentId);
+    this.eventService.triggerEvent(this.closeFormEventId, this.componentId, this.parentComponentId);
   }
 
   private handleEvents(event: any) {

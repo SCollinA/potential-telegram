@@ -14,7 +14,7 @@ export class TablePageComponent implements OnInit, OnDestroy {
   closeModalEventId: string;
   eventSubscription: Subscription;
 
-  modalIsOpen = false;
+  isModalOpen = false;
 
   constructor(private eventService: EventService) {
 
@@ -25,15 +25,26 @@ export class TablePageComponent implements OnInit, OnDestroy {
     this.openModalEventId = this.eventService.registerEvent(this.componentId);
     this.closeModalEventId = this.eventService.registerEvent(this.componentId);
 
-    this.eventSubscription = this.eventService.event.subscribe(this.handleEvents);
+    this.eventSubscription = this.eventService.event.subscribe((event: any) => {
+      if (event.targetId === this.componentId) {
+        this.handleEvent(event);
+      }
+    });
   }
 
   ngOnDestroy() {
     this.eventSubscription.unsubscribe();
   }
 
-  private handleEvents(event: any): void {
+  private handleEvent(event: any): void {
     console.log('event', event);
+    switch (event.eventId) {
+      case this.openModalEventId: this.isModalOpen = true;
+                                  break;
+      case this.closeModalEventId: this.isModalOpen = false;
+                                   break;
+      default: break;
+    }
   }
 
 }
