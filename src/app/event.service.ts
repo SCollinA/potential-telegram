@@ -15,14 +15,12 @@ export class EventService {
 
   constructor() { }
 
-  registerEvent(): any {
+  registerComponent = (): string => uuid();
+
+  registerEvent(targetId: string): any {
     const eventId = uuid();
-    const componentId = uuid();
-    this.eventMap[eventId] = componentId;
-    return {
-      eventId,
-      componentId
-    };
+    this.eventMap[eventId] = targetId;
+    return eventId;
   }
 
   triggerEvent(eventId: string): void {
