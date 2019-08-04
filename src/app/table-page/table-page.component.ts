@@ -37,14 +37,11 @@ export class TablePageComponent implements OnInit, OnDestroy {
   }
 
   private listenForEvents(): Subscription {
-    return this.eventService.event.subscribe((event: any) => {
-      if (event.targetId === this.componentId) {
-        this.handleEvent(event);
-      }
-    });
+    return this.eventService.event.subscribe(this.handleEvent);
   }
 
   private handleEvent(event: any): void {
+    if (event.targetId !== this.componentId) { return; }
     switch (event.eventId) {
       case this.openModalEventId: this.isModalOpen = true;
                                   break;

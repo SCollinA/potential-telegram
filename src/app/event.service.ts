@@ -7,10 +7,7 @@ import { Subject } from 'rxjs';
 })
 export class EventService {
 
-  // need list or map to store events, components
   eventMap = {};
-
-  // need observable for components to subscribe to listen for events
   event = new Subject<any>();
 
   constructor() { }
@@ -25,7 +22,6 @@ export class EventService {
 
   triggerEvent(eventId: string): void {
     const targetId = this.eventMap[eventId];
-    console.log('event triggered', eventId, targetId);
     if (
       !eventId ||
       !targetId
