@@ -8,43 +8,36 @@ import { Subject } from 'rxjs';
 export class EventService {
 
   // need list or map to store events, components
-  componentMap = {};
+  eventMap = {};
 
   // need observable for components to subscribe to listen for events
   event = new Subject<any>();
 
   constructor() { }
 
-  registerComponent(): string {
-    const componentId = uuid();
-    this.componentMap[componentId] = {};
-    return componentId;
-  }
-
-  registerEvent(targetId: string): string {
+  registerEvent(): any {
     const eventId = uuid();
-    this.componentMap[targetId][eventId] = eventId;
-    return eventId;
+    const componentId = uuid();
+    this.eventMap[eventId] = componentId;
+    return {
+      eventId,
+      componentId
+    };
   }
 
-  triggerEvent(eventId: string, sourceId: string, targetId: string): void {
+  triggerEvent(eventId: string): void {
+    const targetId = this.eventMap[eventId];
     if (
-      !eventId || !sourceId || !targetId ||
-      !this.componentMap[targetId] ||
-      !this.componentMap[targetId][eventId]
+      !eventId ||
+      !targetId
       ) { return undefined; }
     this.event.next({
       eventId,
-      sourceId,
       targetId
     });
   }
 
-  unregisterComponent(targetId: string): void {
-    delete this.componentMap[targetId];
-  }
-
-  unregisterEvent(eventId: string, targetId: string): void {
-    delete this.componentMap[targetId][eventId];
+  unregisterEvent(eventId: string): void {
+    delete this.eventMap[eventId];
   }
 }
