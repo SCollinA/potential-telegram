@@ -25,6 +25,7 @@ export class EventService {
 
   triggerEvent(eventId: string): void {
     const targetId = this.eventMap[eventId];
+    console.log('event triggered', eventId, targetId);
     if (
       !eventId ||
       !targetId

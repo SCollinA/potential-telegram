@@ -7,7 +7,15 @@
 <app-modal
   *ngIf="isModalOpen"
   >
-  <app-form
-    [closeFormEventId]="closeModalEventId"
-  ></app-form>
+  <ng-container
+    *ngTemplateOutlet="editForm; context: {closeFormEventId: closeModalEventId}"
+  ></ng-container>
 </app-modal>
+
+<ng-template #editForm
+  let-closeFormEventId="closeFormEventId"
+  >
+  <app-form
+    [closeFormEventId]="closeFormEventId"
+  ></app-form>
+</ng-template>

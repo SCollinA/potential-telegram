@@ -21,19 +21,27 @@ export class TablePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // self reference
     this.componentId = this.eventService.registerComponent();
+
+    // event references
     this.openModalEventId = this.eventService.registerEvent(this.componentId);
     this.closeModalEventId = this.eventService.registerEvent(this.componentId);
 
-    this.eventSubscription = this.eventService.event.subscribe((event: any) => {
-      if (event.targetId === this.componentId) {
-        this.handleEvent(event);
-      }
-    });
+    // listening for events
+    this.eventSubscription = this.listenForEvents();
   }
 
   ngOnDestroy() {
     this.eventSubscription.unsubscribe();
+  }
+
+  private listenForEvents(): Subscription {
+    return this.eventService.event.subscribe((event: any) => {
+      if (event.targetId === this.componentId) {
+        this.handleEvent(event);
+      }
+    });
   }
 
   private handleEvent(event: any): void {
