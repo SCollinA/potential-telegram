@@ -15,6 +15,7 @@ export class EventService {
 
   constructor() { }
 
+  // accept string for id, then child component can just use that string
   registerComponent(): string {
     const componentId = uuid();
     this.componentMap[componentId] = {};
@@ -43,11 +44,8 @@ export class EventService {
 
   handleEvent = (liveEvent: any): void => {
     const events = this.componentMap[liveEvent.targetId];
-    for (const eventId in events) {
-      if (eventId === liveEvent.eventId && events[eventId]) {
-        events[eventId]();
-        return;
-      }
+    if (typeof events[liveEvent.eventId] === "function") {
+      events[liveEvent.eventId]();
     }
   }
 
@@ -62,7 +60,7 @@ export class EventService {
   unregisterComponent(targetId: string): void {
     const component = this.componentMap[targetId];
     component.eventSubscription.unsubscribe();
-    for (const eventId in this.eventMap) {
+    for (const eventId in component) {
       if (this.eventMap[eventId] === targetId) {
         this.unregisterEvent(eventId);
       }
