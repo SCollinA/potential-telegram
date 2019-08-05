@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
 
-  componentMap = {};
-  eventMap = {};
-  event = new Subject<any>();
+  private componentMap = {};
+  private eventMap = {};
+  private event = new Subject<any>();
+
+  event$ = this.event.asObservable();
 
   constructor() { }
 
@@ -21,13 +23,9 @@ export class EventService {
 
   registerEvent(targetId: string, eventHandler: any): any {
     const eventId = uuid();
-
     this.eventMap[eventId] = targetId;
     this.componentMap[targetId][eventId] = eventHandler;
-
-    const handleEvent = this.createEventHandler(targetId);
-    this.componentMap[targetId].eventSubscription = this.event.subscribe(handleEvent);
-
+    this.componentMap[targetId].eventSubscription = this.event$.subscribe(this.handleEvent);
     return eventId;
   }
 
@@ -40,6 +38,24 @@ export class EventService {
     this.event.next({
       eventId,
       targetId
+    });
+  }
+
+  handleEvent = (liveEvent: any): void => {
+    const events = this.componentMap[liveEvent.targetId];
+    for (const eventId in events) {
+      if (eventId === liveEvent.eventId && events[eventId]) {
+        events[eventId]();
+        return;
+      }
+    }
+  }
+
+  subscribeToEvent = (eventId: string, callback: any): Subscription => {
+    return this.event$.subscribe((event: any) => {
+      if (event.eventId === eventId) {
+        callback();
+      }
     });
   }
 
@@ -56,17 +72,5 @@ export class EventService {
 
   unregisterEvent(eventId: string): void {
     delete this.eventMap[eventId];
-  }
-
-  private createEventHandler(targetId: string): (liveEvent: any) => void {
-    const events = this.componentMap[targetId];
-    function handleEvent(liveEvent: any) {
-      for (const eventId in events) {
-        if (eventId === liveEvent.eventId && events[eventId]) {
-          events[eventId]();
-        }
-      }
-    }
-    return handleEvent;
   }
 }
