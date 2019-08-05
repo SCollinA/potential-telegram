@@ -26,12 +26,9 @@ export class EventService {
     this.componentMap[targetId][eventId] = eventHandler;
 
     const handleEvent = this.createEventHandler(targetId);
-    const eventSubscription = this.event.subscribe(handleEvent);
+    this.componentMap[targetId].eventSubscription = this.event.subscribe(handleEvent);
 
-    return {
-      eventId,
-      eventSubscription
-    };
+    return eventId;
   }
 
   triggerEvent(eventId: string): void {
@@ -47,21 +44,18 @@ export class EventService {
   }
 
   unregisterComponent(targetId: string): void {
-    delete this.componentMap[targetId];
+    const component = this.componentMap[targetId];
+    component.eventSubscription.unsubscribe();
     for (const eventId in this.eventMap) {
       if (this.eventMap[eventId] === targetId) {
-        delete this.eventMap[eventId];
+        this.unregisterEvent(eventId);
       }
     }
+    delete this.componentMap[targetId];
   }
 
   unregisterEvent(eventId: string): void {
     delete this.eventMap[eventId];
-    for (const componentId in this.componentMap) {
-      if (this.componentMap[componentId]) {
-        delete this.componentMap[componentId][eventId];
-      }
-    }
   }
 
   private createEventHandler(targetId: string): (liveEvent: any) => void {
