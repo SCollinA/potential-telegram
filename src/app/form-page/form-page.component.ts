@@ -20,30 +20,19 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // self reference
     this.componentId = this.eventService.registerComponent();
 
-    // event reference
-    this.closeFormEventId = this.eventService.registerEvent(this.componentId);
-
-    this.eventSubscription = this.listenForEvents();
+    const event = this.eventService.registerEvent(
+      this.componentId,
+      () => history.back()
+    );
+    this.closeFormEventId = event.eventId;
+    this.eventSubscription = event.eventSubscription;
   }
 
   ngOnDestroy() {
     this.eventSubscription.unsubscribe();
+    this.eventService.unregisterComponent(this.componentId);
+    this.eventService.unregisterEvent(this.closeFormEventId);
   }
-
-  private listenForEvents(): Subscription {
-    return this.eventService.event.subscribe(this.handleEvent);
-  }
-
-  private handleEvent(event: any): void {
-    if (event.targetId !== this.componentId) { return; }
-    switch (event.eventId) {
-      case this.closeFormEventId: history.back();
-                                  break;
-      default: break;
-    }
-  }
-
 }

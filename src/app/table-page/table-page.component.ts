@@ -21,34 +21,26 @@ export class TablePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // self reference
     this.componentId = this.eventService.registerComponent();
 
-    // event references
-    this.openModalEventId = this.eventService.registerEvent(this.componentId);
-    this.closeModalEventId = this.eventService.registerEvent(this.componentId);
-
-    // listening for events
-    this.eventSubscription = this.listenForEvents();
+    let event = this.eventService.registerEvent(
+      this.componentId,
+      () => this.isModalOpen = true
+    );
+    this.openModalEventId = event.eventId;
+    event = this.eventService.registerEvent(
+      this.componentId,
+      () => this.isModalOpen = false
+    );
+    this.closeModalEventId = event.eventId;
+    this.eventSubscription = event.eventSubscription;
   }
 
   ngOnDestroy() {
+    // write unregister function that does all this
     this.eventSubscription.unsubscribe();
+    this.eventService.unregisterComponent(this.componentId);
+    this.eventService.unregisterEvent(this.closeModalEventId);
+    this.eventService.unregisterEvent(this.openModalEventId);
   }
-
-  private listenForEvents(): Subscription {
-    return this.eventService.event.subscribe(this.handleEvent);
-  }
-
-  private handleEvent(event: any): void {
-    if (event.targetId !== this.componentId) { return; }
-    switch (event.eventId) {
-      case this.openModalEventId: this.isModalOpen = true;
-                                  break;
-      case this.closeModalEventId: this.isModalOpen = false;
-                                   break;
-      default: break;
-    }
-  }
-
 }
