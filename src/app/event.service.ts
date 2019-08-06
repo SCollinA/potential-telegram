@@ -12,9 +12,10 @@ export class EventService {
   constructor() { }
 
   registerEvent(eventId: string): any {
-    this.eventMap[eventId] = new Subject<any>();
-    console.log('registering event', eventId);
-    return this.eventMap[eventId];
+    if (!this.eventMap[eventId]) {
+      this.eventMap[eventId] = new Subject<any>();
+      console.log('registering event', eventId);
+    }
   }
 
   triggerEvent(eventId: string): void {
