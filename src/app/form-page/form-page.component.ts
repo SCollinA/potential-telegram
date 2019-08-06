@@ -21,6 +21,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.eventSubscription.unsubscribe();
-    this.eventService.unregisterEvent('closeForm'); 
+    this.eventService.unregisterEvent('closeForm');
   }
 }
