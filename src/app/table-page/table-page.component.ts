@@ -20,10 +20,7 @@ export class TablePageComponent implements OnInit, OnDestroy {
     this.eventService.registerEvent('openForm');
     this.eventService.registerEvent('closeForm');
     this.openFormSubscription = this.eventService.subscribeToEvent('openForm', () => this.isModalOpen = true);
-    this.closeFormSubscription = this.eventService.subscribeToEvent('closeForm', () => {
-      this.isModalOpen = false;
-      console.log('herro');
-    });
+    this.closeFormSubscription = this.eventService.subscribeToEvent('closeForm', () => this.isModalOpen = false);
   }
 
   ngOnDestroy() {
