@@ -14,7 +14,6 @@ export class EventService {
   registerEvent(eventId: string): any {
     if (!this.eventMap[eventId]) {
       this.eventMap[eventId] = new Subject<any>();
-      console.log('registering event', eventId);
     }
   }
 
@@ -26,7 +25,6 @@ export class EventService {
 
   subscribeToEvent = (eventId: string, callback: any): Subscription => {
     const event$ = this.eventMap[eventId];
-    console.log('subscribing to event', this.eventMap);
     if (!event$) { return undefined; }
     return event$.asObservable().subscribe(() => {
       if (typeof callback === 'function') {
