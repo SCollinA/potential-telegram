@@ -2,7 +2,6 @@
   table-page works!
 </p>
 <app-table
-  [openModalEventId]="openModalEventId"
 ></app-table>
 
 <app-modal class="app-modal"
@@ -11,14 +10,10 @@
   <ng-container
     *ngTemplateOutlet="editForm"
     ></ng-container>
-    <!-- context: {closeFormEventId: closeModalEventId}" -->
 </app-modal>
 
-<!-- let-closeFormEventId="closeFormEventId" -->
 <ng-template #editForm
   >
-  <!-- [closeFormEventId]="closeFormEventId" -->
   <app-form
-    [closeFormEventId]="closeModalEventId"
   ></app-form>
 </ng-template>

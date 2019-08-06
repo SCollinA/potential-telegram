@@ -9,24 +9,17 @@ import { EventService } from '../event.service';
 })
 export class FormPageComponent implements OnInit, OnDestroy {
 
-  componentId: string;
-  closeFormEventId: string;
-
-  isModalOpen = false;
+  eventSubscription: Subscription;
 
   constructor(private eventService: EventService) {
   }
 
   ngOnInit() {
-    this.componentId = this.eventService.registerComponent();
-
-    this.closeFormEventId = this.eventService.registerEvent(
-      this.componentId,
-      () => history.back()
-    );
+    this.eventService.registerEvent('closeForm');
+    this.eventSubscription = this.eventService.subscribeToEvent('closeForm', () => history.back());
   }
 
   ngOnDestroy() {
-    this.eventService.unregisterComponent(this.componentId);
+    this.eventSubscription.unsubscribe();
   }
 }

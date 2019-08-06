@@ -8,15 +8,13 @@ import { EventService } from '../event.service';
 })
 export class FormComponent implements OnInit {
 
-  @Input()
-  closeFormEventId: string;
-
-  constructor(private eventService: EventService) { }
+  constructor(private eventService: EventService) {
+  }
 
   ngOnInit() {
   }
 
   closeForm() {
-    this.eventService.triggerEvent(this.closeFormEventId);
+    this.eventService.triggerEvent('closeForm');
   }
 }

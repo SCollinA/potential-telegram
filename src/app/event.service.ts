@@ -13,17 +13,25 @@ export class EventService {
 
   registerEvent(eventId: string): any {
     this.eventMap[eventId] = new Subject<any>();
+    console.log('registering event', eventId);
     return this.eventMap[eventId];
   }
 
   triggerEvent(eventId: string): void {
     const event$ = this.eventMap[eventId];
-    if (!eventId ) { return undefined; }
+    if (!eventId || !event$ ) { return undefined; }
     event$.next();
   }
 
-  subscribeToEvent = (eventId: string): Subscription => {
-    return this.eventMap[eventId].asObservable();
+  subscribeToEvent = (eventId: string, callback: any): Subscription => {
+    const event$ = this.eventMap[eventId];
+    console.log('subscribing to event', this.eventMap);
+    if (!event$) { return undefined; }
+    return event$.asObservable().subscribe(() => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
   }
 
   unregisterEvent(eventId: string): void {

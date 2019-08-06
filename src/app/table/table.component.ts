@@ -9,25 +9,18 @@ import { Subscription } from 'rxjs';
 })
 export class TableComponent implements OnInit, OnDestroy {
 
-  @Input()
-  openModalEventId: string;
-
   emphasis = '';
-  eventSubscription: Subscription;
 
-  constructor(private eventService: EventService) { }
+  constructor(private eventService: EventService) {
+  }
 
   ngOnInit() {
-    this.eventSubscription = this.eventService.subscribeToEvent(this.openModalEventId, () => {
-      this.emphasis = 'really';
-    });
   }
 
   ngOnDestroy() {
-    this.eventSubscription.unsubscribe();
   }
 
   openModal(): void {
-    this.eventService.triggerEvent(this.openModalEventId);
+    this.eventService.triggerEvent('openForm');
   }
 }

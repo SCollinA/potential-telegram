@@ -9,29 +9,25 @@ import { Subscription } from 'rxjs';
 })
 export class TablePageComponent implements OnInit, OnDestroy {
 
-  componentId: string;
-  openModalEventId: string;
-  closeModalEventId: string;
-
   isModalOpen = false;
+  openFormSubscription: Subscription;
+  closeFormSubscription: Subscription;
 
   constructor(private eventService: EventService) {
   }
 
   ngOnInit() {
-    this.componentId = this.eventService.registerComponent();
-
-    this.openModalEventId = this.eventService.registerEvent(
-      this.componentId,
-      () => this.isModalOpen = true
-    );
-    this.closeModalEventId = this.eventService.registerEvent(
-      this.componentId,
-      () => this.isModalOpen = false
-    );
+    this.eventService.registerEvent('openForm');
+    this.eventService.registerEvent('closeForm');
+    this.openFormSubscription = this.eventService.subscribeToEvent('openForm', () => this.isModalOpen = true);
+    this.closeFormSubscription = this.eventService.subscribeToEvent('closeForm', () => {
+      this.isModalOpen = false;
+      console.log('herro');
+    });
   }
 
   ngOnDestroy() {
-    this.eventService.unregisterComponent(this.componentId);
+    this.openFormSubscription.unsubscribe();
+    this.closeFormSubscription.unsubscribe();
   }
 }
