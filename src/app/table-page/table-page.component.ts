@@ -26,5 +26,7 @@ export class TablePageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.openFormSubscription.unsubscribe();
     this.closeFormSubscription.unsubscribe();
+    this.eventService.unregisterEvent('openForm');
+    this.eventService.unregisterEvent('closeForm');
   }
 }
